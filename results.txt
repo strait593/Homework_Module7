@@ -1,0 +1,8 @@
+Results summary:
+
+Record.add_phone: accepts valid phone; raises InsufficientCharactersError for short numbers and InvalidCharacter for alphabetic input.
+Record.remove_phone, edit_phone, find_phone: work as expected; find_phone returns the Phone object or the string "Such phone number does not exist."
+Record.add_birthday and show_birthday: add_birthday stores the string; show_birthday returns the birthday when matched and (due to the @input_error decorator) returns "Please enter your username" on not-found instead of raising IndexError.
+Record.birthdays(): returns upcoming birthday(s) using prepare_user_list + get_upcoming_birthdays.
+Addressbook.add_record, find, delete, display_records: behave correctly; display_records shows __str__ for each record.
+Upcoming birthdays for the whole address book were produced by preparing a user list and calling get_upcoming_birthdays.
