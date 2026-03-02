@@ -126,11 +126,6 @@ class Addressbook(UserDict):
 if __name__ == "__main__":
     address_book = Addressbook()
     record1 = Record("John Doe")
-    record1.add_phone("1234567890")
-    record1.add_birthday("1985-01-23")
-    address_book.add_record(record1)
-    print(address_book.display_records())
-    print(record1.show_birthday("John Doe"))
 
 def parse_input(user_input):
     cmd, *args = user_input.split()
@@ -138,8 +133,7 @@ def parse_input(user_input):
     return cmd, args
 
 if __name__ == "__main__":
-    def main():
-
+    
         while True:
             user_input = input("Enter command: ")
             if not user_input:
@@ -162,6 +156,20 @@ if __name__ == "__main__":
             
             elif command == "hello":
                 print("Hi there . How can i assist you today?")
+            
+            elif command == "add_birthday":
+                if len(args) < 2:
+                    print("Usage: add_birthday <name> <birthday>")
+                    continue
+                name, birthday = args[0], args[1]
+                record = address_book.find(name)
+                if record:
+                    try:
+                        print(record.add_birthday(birthday))
+                    except ValueError as e:
+                        print(e)
+                else:
+                    print(f"Contact {name} not found.")
             
             elif command == "phone":
                 if len(args) < 1:
