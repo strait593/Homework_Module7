@@ -22,11 +22,11 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, phone):
-        if len(str(phone)) < 10:
+        if len(str(phone)) != 10:
             raise InsufficientCharactersError("The phone number is too short.")
         super().__init__(phone)
 
-        if str(phone).isalpha():
+        if not phone.isdigit():
             raise InvalidCharacter("Invalid character entered.")
 
 class Birthday(Field):
@@ -68,8 +68,8 @@ class Record:
         phone_for_editing = self.find_phone(old_phone)
 
         if phone_for_editing:
-            self.remove_phone(old_phone)
             self.add_phone(updated_phone)
+            self.remove_phone(old_phone)
         else:
             raise ValueError(f"Phone number {old_phone} does not exist.")
         
@@ -78,7 +78,8 @@ class Record:
         for phone in self.phones:
             if phone.value == value:
                 return phone
-        return "Such phone number does not exist."
+        return None
+    
     @input_error
     def add_birthday(self,value):
         self.birthday = value
@@ -95,7 +96,6 @@ class Record:
     @input_error
     def birthdays(self):
         #Return upcoming birthday(s) for this record within 7 days since present date.
-
         if not getattr(self, "birthday", None):
             return []
 
@@ -133,7 +133,6 @@ def parse_input(user_input):
     return cmd, args
 
 if __name__ == "__main__":
-    
         while True:
             user_input = input("Enter command: ")
             if not user_input:
@@ -185,9 +184,9 @@ if __name__ == "__main__":
             elif command == "all":
                 print(address_book.display_records())
             
-            elif command == "change":
+            elif command == "edit":
                 if len(args) < 3:
-                    print("Usage: change <name> <old_phone> <new_phone>")
+                    print("Usage: edit <name> <old_phone> <new_phone>")
                     continue
                 name, old_phone, new_phone = args[0], args[1], args[2]
                 record = address_book.find(name)
@@ -200,6 +199,18 @@ if __name__ == "__main__":
                 else:
                     print(f"Contact {name} not found.")
             
+            elif command == "remove":
+                if len(args) < 2:
+                    print("Usage: remove <name> <phone>")
+                    continue
+                name, phone = args[0], args[1]
+                record = address_book.find(name)
+                if record:
+                    record.remove_phone(phone)
+                    print(f"{phone} removed from {name}'s contact.")
+                else:
+                    raise ValueError(f"Contact {name} not found.")
+
             elif command in ["exit", "close", "finish"]:
                 print("Have a great day!")
                 break
