@@ -53,17 +53,18 @@ class Record:
         self.phones: list[Phone] = []
         self.birthday = None
 
+    @input_error
     def add_phone(self, value: str):
         self.phones.append(Phone(value))
-        if value.isdigit() == False:
-            raise InvalidCharacter("Invalid character entered.")
-
+        
+    @input_error
     def remove_phone(self, value: str):
         for phone in self.phones:
             if phone.value == value:
                 self.phones.remove(phone)
                 break
-    
+            
+    @input_error
     def edit_phone(self, old_phone:str,updated_phone:str):
         phone_for_editing = self.find_phone(old_phone)
 
@@ -73,7 +74,7 @@ class Record:
         else:
             raise ValueError(f"Phone number {old_phone} does not exist.")
         
-    
+    @input_error
     def find_phone(self,value):
         for phone in self.phones:
             if phone.value == value:
@@ -108,39 +109,56 @@ class Record:
         phones_str = "; ".join(p.value for p in self.phones)
         return f"Contact name: {self.name.value}, phones: {phones_str}, birthday: {self.birthday}"
     
-class Addressbook(UserDict):
+class AddressBook(UserDict):
     # Handles the addition of contacts, searches based on name and removal of records
     def add_record(self, record: "Record"):
         self.data[record.name.value] = record
-
+    
+    @input_error
     def find(self, name: str):
         return self.data.get(name)
-
+    @input_error
     def delete(self, name: str):
         if name in self.data:
             del self.data[name]
-
+    
     def display_records(self) -> str:
         return "\n".join(str(record) for record in self.data.values())
     
-if __name__ == "__main__":
-    address_book = Addressbook()
-    record1 = Record("John Doe")
+    def __str__(self):
+        return str(self.display_records())
+    
+    @input_error
+    def get_upcoming_birthdays(self):
 
+        if not getattr(self, "birthday", None):
+            return []
+
+        users_raw = [{"name": self.name.value, "birthday": self.birthday}]
+        prepared = prepare_user_list(users_raw)
+
+        return get_upcoming_birthdays(prepared)
+    
+@input_error
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, args
 
-if __name__ == "__main__":
-        while True:
+def main():
+    address_book = AddressBook()
+    record = Record()
+    while True:
             user_input = input("Enter command: ")
             if not user_input:
                 print("Please enter a command.")
                 continue
             command, args = parse_input(user_input)
 
-            if command == "add":
+            if command == "hello":
+                print("Hi there . How can i assist you today?")
+            
+            elif command == "add":
                 if len(args) < 2:
                     print("Usage: add <name> <phone>")
                     continue
@@ -153,8 +171,6 @@ if __name__ == "__main__":
                 except (InsufficientCharactersError, InvalidCharacter) as e:
                     print(e)
             
-            elif command == "hello":
-                print("Hi there . How can i assist you today?")
             
             elif command == "add_birthday":
                 if len(args) < 2:
@@ -170,6 +186,29 @@ if __name__ == "__main__":
                 else:
                     print(f"Contact {name} not found.")
             
+            elif command == "show-birthday":
+                if len(args) < 1:
+                    print("Use case: show-birthday <name>")
+                    continue
+                name = args[0]
+                record = address_book.find(name)
+                if record:
+                    try:
+                        print(record.show_birthday(name))
+                    except IndexError as e:
+                        print(e)
+                else:
+                    print(f"Contact {name} not found.")
+            
+            elif command == "birthdays":
+                upcoming = address_book.get_upcoming_birthdays()
+                if upcoming:
+                    print("Upcoming birthdays within 7 days:")
+                    for user in upcoming:
+                        print(f"{user['name']} - {user['birthday']}")
+                else:
+                    print("No upcoming birthdays within 7 days.")
+    
             elif command == "phone":
                 if len(args) < 1:
                     print("Usage: phone <name>")
@@ -214,3 +253,9 @@ if __name__ == "__main__":
             elif command in ["exit", "close", "finish"]:
                 print("Have a great day!")
                 break
+
+            else:
+                print("Unknown command. Please try again.")
+                continue
+if __name__ == "__main__":
+    main()
