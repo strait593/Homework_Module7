@@ -147,7 +147,6 @@ def parse_input(user_input):
 
 def main():
     address_book = AddressBook()
-    record = Record()
     while True:
             user_input = input("Enter command: ")
             if not user_input:
@@ -172,7 +171,7 @@ def main():
                     print(e)
             
             
-            elif command == "add_birthday":
+            elif command == "add-birthday":
                 if len(args) < 2:
                     print("Usage: add_birthday <name> <birthday>")
                     continue
@@ -257,5 +256,6 @@ def main():
             else:
                 print("Unknown command. Please try again.")
                 continue
+
 if __name__ == "__main__":
     main()
