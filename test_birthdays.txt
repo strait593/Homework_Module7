@@ -1,0 +1,6 @@
+add john 1234567890
+add-birthday john 15.03.2000
+add jane 9876543210
+add-birthday jane 10.03.2000
+birthdays
+exit
