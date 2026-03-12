@@ -2,11 +2,61 @@ def input_error(func):
     def inner(*args, **kwargs):
         try:
             return func(*args,**kwargs)
-        except ValueError:
-            return "Give me name and phone please"
+        except ValueError as e:
+            msg = str(e)
+            if msg and "not enough values" in msg:
+                return "Missing arguments. Please check the command syntax."
+            elif msg and "too many values" in msg:
+                return "Too many arguments. Please check the command syntax."
+            elif msg and "invalid literal" in msg:
+                return "Invalid argument type. Please check the command syntax."
+            else:
+                return msg or "An error occurred. Please check your input."
+            
         except KeyError:
             return "Contact not found"
         except IndexError:
             return "Please enter your username"
+        except AttributeError:
+            return "Contact not found or command used incorrectly."
+        except TypeError:
+            return "Incorrect command usage. Please verify syntax."
         
+    return inner
+
+def input_error(func):
+    def inner(*args, **kwargs) -> str:
+        try:
+            return func(*args, **kwargs)
+
+        except KeyError:
+            return "Contact not found."
+
+        except IndexError:
+
+            return "Missing or incorrect arguments. Please check the command syntax."
+
+        except ValueError as e:
+            msg = str(e)
+
+            if msg and (
+                "not enough values" in msg
+                or "too many values" in msg
+                or "list index" in msg
+                or "invalid literal" in msg
+            ):
+                return "Missing or incorrect arguments. Please check the command syntax."
+
+            if msg:
+                return msg
+
+            return "Invalid input or parameters. Please check your command."
+
+        except AttributeError:
+
+            return "Contact not found or command used incorrectly."
+
+        except TypeError:
+            return "Incorrect command usage. Please verify syntax."
+
     return inner
