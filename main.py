@@ -4,7 +4,6 @@ from get_upcoming_bd_func import *
 from input_wrapper import input_error
 import pickle
 
-# --- Класи полів ---
 class Field:
     def __init__(self, value):
         self.value = value
@@ -24,7 +23,6 @@ class Phone(Field):
 class Birthday(Field):
     def __init__(self, value):
         try:
-            # Зберігаємо як об'єкт date для внутрішньої логіки
             self.value = datetime.strptime(value, "%d.%m.%Y").date()
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
@@ -32,7 +30,6 @@ class Birthday(Field):
     def __str__(self):
         return self.value.strftime("%d.%m.%Y")
 
-# --- Клас Record ---
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
