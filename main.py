@@ -160,9 +160,13 @@ def main():
             user_input = input("Enter the command: ")
             command, args = parse_input(user_input)
 
-            if command in ['end', 'exit', 'close']:
+            if not user_input:
+                continue
+            
+            elif command in ['end', 'exit', 'close']:
                 print("Goodbye")
                 break
+            
             elif command == 'add':
                 print(add_contact(args, book))
             elif command == "change":
