@@ -53,15 +53,3 @@ def get_upcoming_birthdays(users, days=7):
     return upcoming_birthdays
 
 # --- Test Section ---
-users_raw = [
-    {"name": "Bill Gates", "birthday": "1955.3.25"},
-    {"name": "Steve Jobs", "birthday": "1955.3.21"},
-    {"name": "Jinny Lee", "birthday": "1956.3.22"},
-    {"name": "Sarah Lee", "birthday": "1957.3.23"},
-    {"name": "Jonny Lee", "birthday": "1958.3.22"},
-    {"name": "John Doe", "birthday": "1985.01.23"},
-    {"name": "Jane Smith", "birthday": "1990.01.27"}
-]
-
-prepared = prepare_user_list(users_raw)
-print(get_upcoming_birthdays(prepared))

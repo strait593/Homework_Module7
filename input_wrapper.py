@@ -2,6 +2,8 @@ def input_error(func):
     def inner(*args, **kwargs):
         try:
             return func(*args,**kwargs)
+        except IndexError:
+            return "Invalid input or command syntax. Please re-enter the command."
         except ValueError as e:
             msg = str(e)
             if msg and "not enough values" in msg:
@@ -12,11 +14,6 @@ def input_error(func):
                 return "Invalid argument type. Please check the command syntax."
             else:
                 return msg or "An error occurred. Please check your input."
-            
-        except KeyError:
-            return "Contact not found"
-        except IndexError:
-            return "Please enter your username"
         except AttributeError:
             return "Contact not found or command used incorrectly."
         except TypeError:
