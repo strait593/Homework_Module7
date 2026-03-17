@@ -1,6 +1,6 @@
 1. Програма падає якщо ввести пустий рядок. Програма не має падати. Декоратор має перехоплювати всі помилки.✔
 
-2. Програма падає  в ситуації
+2. Програма падає  в ситуації✔
 
 Enter the command: all
 Contact name: a, phones: 1231231233; 2342342344
@@ -9,16 +9,22 @@ Enter the command: change a 2342342344 34
 Traceback (most recent call last):
   File "/media/ulkabo/HDD/work/module7/Parkhomenko_Mdytro_Homework_Module7/main.py", line 188, in <module>
 ......
+output після перевірки:
+Enter the command: all
+Contact name: a, phones: 1231231233; 2342342344, birthday: N/A
+Enter the command: change a 2342342344 34
+The phone number should be exactly 10 digits long.
 
-
-3. Програма падає в ситуації 
+3. Програма падає в ситуації ✔
 
 Enter the command: add g 23
 Contact g created.
 Traceback (most recent call last):
 ....
+output після перевірки:
+The phone number should be exactly 10 digits long.
 
 
-4. Команда birthdays має показувати не дати народження, а дати привітання, з урахуванням переноса з вихідних на понеділок.
+4. Команда birthdays має показувати не дати народження, а дати привітання, з урахуванням переноса з вихідних на понеділок.✔
 
-5. Команда all має показувати не тільки телефони, але всю інформацію по контактам.
+5. Команда all має показувати не тільки телефони, але всю інформацію по контактам.✔
