@@ -30,7 +30,7 @@ def get_upcoming_birthdays(users, days=7):
 
     for user in users:
         # 1. Set birthday to current year
-        birthday_this_year = user["birthday"].replace(year=today.year)
+        birthday_this_year = user["birthday"].replace(year=today.year, month=user["birthday"].month, day=user["birthday"].day)
 
         # 2. Check if birthday has already passed this year
         if birthday_this_year < today:
@@ -51,5 +51,3 @@ def get_upcoming_birthdays(users, days=7):
             })
             
     return upcoming_birthdays
-
-# --- Test Section ---

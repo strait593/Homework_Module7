@@ -16,7 +16,5 @@ def input_error(func):
                 return msg or "An error occurred. Please check your input."
         except AttributeError:
             return "Contact not found or command used incorrectly."
-        except TypeError:
-            return "Incorrect command usage. Please verify syntax."
         
     return inner
